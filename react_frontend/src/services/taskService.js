@@ -70,17 +70,35 @@ export class TaskService {
    */
   async createTask(task) {
     try {
+      // Validate required fields
+      if (!task.title || !task.description) {
+        throw new Error('Title and description are required');
+      }
+
+      // Check if Supabase is properly initialized
+      if (!this.supabase || !process.env.REACT_APP_SUPABASE_URL || !process.env.REACT_APP_SUPABASE_KEY) {
+        throw new Error('Supabase client is not properly initialized. Please check your environment variables.');
+      }
+
       const { data, error } = await this.supabase
         .from(TABLE_NAME)
-        .insert([{ ...task, created_at: new Date().toISOString() }])
+        .insert([{ 
+          title: task.title.trim(),
+          description: task.description.trim(),
+          created_at: new Date().toISOString()
+        }])
         .select()
         .single();
 
-      if (error) throw error;
-      this.notifyListeners();
+      if (error) {
+        console.error('Supabase error details:', error);
+        throw new Error(`Failed to create task: ${error.message}`);
+      }
+
+      await this.notifyListeners();
       return data;
     } catch (error) {
-      console.error('Error creating task:', error.message);
+      console.error('Error creating task:', error);
       throw error;
     }
   }

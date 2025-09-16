@@ -32,7 +32,7 @@ const TaskList = () => {
       await taskService.createTask(taskData);
       setError(null);
     } catch (err) {
-      setError('Failed to create task. Please try again.');
+      setError(err.message || 'Failed to create task. Please try again.');
     }
   };
 
