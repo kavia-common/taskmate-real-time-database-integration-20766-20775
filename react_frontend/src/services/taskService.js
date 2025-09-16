@@ -5,6 +5,12 @@ const TABLE_NAME = 'tasks';
 /**
  * PUBLIC_INTERFACE
  * Task Service for handling all Supabase task operations
+ * 
+ * Requires:
+ * - Supabase client from ../lib/supabaseClient
+ * - Environment variables:
+ *    REACT_APP_SUPABASE_URL
+ *    REACT_APP_SUPABASE_KEY
  */
 export class TaskService {
   constructor() {
