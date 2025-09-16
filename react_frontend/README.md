@@ -11,18 +11,46 @@ This project provides a minimal React template with a clean, modern UI and minim
 
 ## Supabase Integration (Initial Setup)
 
-This template is pre-configured to use Supabase as a backend:
+This template is pre-configured to use Supabase as a backend.
 
-- Environment variables are read from `.env`:
+### 1) Install dependencies
+Already included in `package.json`:
+- `@supabase/supabase-js`
+If you need to reinstall, run:
+```bash
+npm install
+```
+
+### 2) Configure environment variables
+- Copy `.env.example` to `.env` in `react_frontend/`
+- Fill in the values from your Supabase project:
   - `REACT_APP_SUPABASE_URL`
   - `REACT_APP_SUPABASE_KEY`
-- See `.env.example` for required variables. Copy to `.env` and fill.
-- The Supabase client is initialized in `src/lib/supabaseClient.js` via the exported function:
-  ```js
-  import { getSupabaseClient } from './lib/supabaseClient';
-  const supabase = getSupabaseClient();
-  ```
-- You can now integrate CRUD operations using `supabase.from('tasks')...`
+
+Example:
+```env
+REACT_APP_SUPABASE_URL=https://YOUR_PROJECT_ID.supabase.co
+REACT_APP_SUPABASE_KEY=YOUR_ANON_PUBLIC_KEY
+```
+
+Note: Do not commit your `.env` file.
+
+### 3) Supabase client usage
+The Supabase client is initialized in `src/lib/supabaseClient.js` as a singleton:
+
+```js
+import { getSupabaseClient } from './lib/supabaseClient';
+const supabase = getSupabaseClient();
+// Example:
+const { data, error } = await supabase.from('tasks').select('*');
+```
+
+This setup prepares the app to integrate full CRUD and real-time features later via:
+- `supabase.from('tasks').select(...)`
+- `supabase.from('tasks').insert([...])`
+- `supabase.from('tasks').update({...}).eq('id', ...)`
+- `supabase.from('tasks').delete().eq('id', ...)`
+- Realtime: `supabase.channel(...).on('postgres_changes', ...).subscribe()`
 
 ## Getting Started
 
@@ -44,9 +72,15 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 ## Customization
 
-### Colors
+### Theme and Ocean Professional Style
 
-The main brand colors are defined as CSS variables in `src/App.css`.
+- The main brand colors are defined as CSS variables in `src/App.css`.
+- To follow the "Ocean Professional" theme (blue & amber accents, rounded cards, modern look), use:
+  - Primary: `#2563EB` (blue)
+  - Secondary/Accent: `#F59E0B` (amber)
+  - Background: `#f9fafb`
+  - Surface: `#ffffff`
+  - Text: `#111827`
 
 ### Components
 
