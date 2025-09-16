@@ -82,11 +82,11 @@ export class TaskService {
 
       const { data, error } = await this.supabase
         .from(TABLE_NAME)
-        .insert([{ 
+        .insert({
           title: task.title.trim(),
-          description: task.description.trim(),
-          created_at: new Date().toISOString()
-        }])
+          description: task.description.trim()
+          // Let Supabase handle id and created_at with default values
+        })
         .select()
         .single();
 
