@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { getSupabaseClient } from './lib/supabaseClient';
 
 // PUBLIC_INTERFACE
 function App() {
   const [theme, setTheme] = useState('light');
+
+  // Initialize Supabase client once to ensure configuration is valid
+  useEffect(() => {
+    const supabase = getSupabaseClient();
+    // Optional: small no-op call to verify client is created in dev.
+    // This is a placeholder for future CRUD integration.
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.log('Supabase client initialized:', Boolean(supabase));
+    }
+  }, []);
 
   // Effect to apply theme to document element
   useEffect(() => {
