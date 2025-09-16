@@ -45,6 +45,11 @@ const supabase = getSupabaseClient();
 const { data, error } = await supabase.from('tasks').select('*');
 ```
 
+Note: Services should import the client using a relative path from their location. For example, from `src/services/taskService.js`:
+```js
+import { getSupabaseClient } from '../lib/supabaseClient';
+```
+
 This setup prepares the app to integrate full CRUD and real-time features later via:
 - `supabase.from('tasks').select(...)`
 - `supabase.from('tasks').insert([...])`
