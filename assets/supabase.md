@@ -7,7 +7,7 @@
 ```sql
 Table: tasks
 Columns:
-- id: uuid (Primary Key)
+- id: uuid (Primary Key, Default: gen_random_uuid())
 - title: text (NOT NULL)
 - description: text (NOT NULL)
 - created_at: timestamptz (NOT NULL, Default: now())
